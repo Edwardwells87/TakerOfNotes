@@ -32,17 +32,22 @@ const getNotes = () =>
       'Content-Type': 'application/json',
     },
   });
-const saveNote = (note) => {
-console.log(note)
-  fetch('/notes', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(note),
-   
-  });
-}
+  const saveNote = (note) => {
+    console.log(note);
+    return fetch('/notes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(note),
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Error adding note');
+      }
+    });
+  };
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
     method: 'DELETE',
